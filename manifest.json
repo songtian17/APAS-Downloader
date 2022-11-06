@@ -1,0 +1,15 @@
+{
+    "name": "APAS Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+      "default_title": "Download APAS Code"
+    },
+    "permissions": ["scripting"],
+    "host_permissions": [
+      "http://172.21.146.80/exercise/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    }
+  }
