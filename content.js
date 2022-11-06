@@ -15,23 +15,27 @@ async function downloadAPAS() {
         let lineNumList = document.getElementsByClassName("ace_gutter-cell")
         let lastLine = parseInt(lineNumList[lineNumList.length - 1].innerText)
 
-        let oneScroll = 588 / (Math.ceil(lastLine / 31) + 1)
+        let oneScroll = document.querySelector("#editor0 > div.ace_scroller > div").clientHeight / (Math.ceil(lastLine / 31) + 1)
         let prevEnd = 0
         for (let i = 0; i < scrollBar.scrollHeight; i += oneScroll) {
             scrollBar.scrollTop = i
             await sleep(50)
+
             let lineNumList = document.getElementsByClassName("ace_gutter-cell")
-            for (let j = 0; j < lineNumList.length; j++) {
+            let lineList = document.getElementsByClassName("ace_line")
+            let maxLength = lineList.length
+
+            for (let j = 0; j < maxLength; j++) {
                 if (prevEnd + 1 == parseInt(lineNumList[j].innerText)) {
-                    let lineList = document.getElementsByClassName("ace_line")
-                    for (let k = j; k < lineList.length; k++) {
+                    for (let k = j; k < maxLength; k++) {
                         let lineContent = lineList[k].innerText.replace(/\u00A0/g, " ")
                         contentArr.push(lineContent)
                     }
                     break
                 }
             }
-            prevEnd = parseInt(lineNumList[lineNumList.length - 1].innerText)
+
+            prevEnd = parseInt(lineNumList[maxLength - 1].innerText)
             if (prevEnd == lastLine) {
                 break
             }
@@ -45,13 +49,7 @@ async function downloadAPAS() {
         link.download = fileName;
         link.click()
 
-        console.log("Downloaded " + fileName)
     } catch (e) {
-        // if (e instanceof SyntaxError) {
-        //     console.log("Code has already been downloaded.")
-        // } else {
-        //     console.log(e)
-        // }
         console.log(e)
     }
 }
