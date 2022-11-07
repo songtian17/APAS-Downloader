@@ -11,5 +11,17 @@
     ],
     "background": {
       "service_worker": "background.js"
-    }
+    },
+    "content_scripts": [
+      {
+        "matches": ["http://172.21.146.80/exercise/list/*"],
+        "js": ["questionList.js"],
+        "run_at": "document_end"
+      },
+      {
+        "matches": ["http://172.21.146.80/exercise/view/*"],
+        "js": ["exerciseQuestionSolution.js", "beautifyPretestResult.js"],
+        "run_at": "document_end"
+      }
+    ]
   }
